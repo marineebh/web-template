@@ -1,7 +1,6 @@
 @import '../../../../styles/customMediaQueries.css';
 
 .filterField {
-  color: var(--colorGrey300);
   height: 100%;
   align-items: center;
   display: grid;
