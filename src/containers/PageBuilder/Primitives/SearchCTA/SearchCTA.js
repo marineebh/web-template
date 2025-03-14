@@ -82,7 +82,7 @@ export const SearchCTA = React.forwardRef((props, ref) => {
     <div className={css.filterField}>{/* <FilterLocation /> */}</div>
   ) : null;
   const keywordsMaybe = keywordSearch ? (
-    <div className={css.filterField}>{<FilterKeyword />}</div>
+    <div className={css.filterField}>{/* <FilterKeyword /> */}</div>
   ) : null;
   const dateRangeMaybe = dateRange ? (
     <div className={css.filterField}>{/* <FilterDateRange /> */}</div>
