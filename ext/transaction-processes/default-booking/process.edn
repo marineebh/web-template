@@ -4,75 +4,45 @@
    :actor :actor.role/customer,
    :actions [{:name :action/update-protected-data}],
    :to :state/inquiry}
-  {:name :transition/request-payment,
+  {:name :transition/request-preauthorization,
    :actor :actor.role/customer,
    :actions
    [{:name :action/update-protected-data}
     {:name :action/create-pending-booking, :config {:type :time}}
-    {:name :action/privileged-set-line-items}
-    {:name :action/stripe-create-payment-intent}],
-   :to :state/pending-payment,
+    {:name :action/privileged-set-line-items}],
+   :to :state/preauthorized,
    :privileged? true}
-  {:name :transition/request-payment-after-inquiry,
+  {:name :transition/request-preauthorization-after-inquiry,
    :actor :actor.role/customer,
    :actions
    [{:name :action/update-protected-data}
     {:name :action/create-pending-booking, :config {:type :time}}
-    {:name :action/privileged-set-line-items}
-    {:name :action/stripe-create-payment-intent}],
+    {:name :action/privileged-set-line-items}],
    :from :state/inquiry,
-   :to :state/pending-payment,
+   :to :state/preauthorized,
    :privileged? true}
-  {:name :transition/expire-payment,
-   :at
-   {:fn/plus
-    [{:fn/timepoint [:time/first-entered-state :state/pending-payment]}
-     {:fn/period ["PT15M"]}]},
-   :actions
-   [{:name :action/calculate-full-refund}
-    {:name :action/stripe-refund-payment}
-    ;; Keep this action last in the list of actions for
-    ;; the transition
-    {:name :action/decline-booking}],
-   :from :state/pending-payment,
-   :to :state/payment-expired}
-  {:name :transition/confirm-payment,
-   :actor :actor.role/customer,
-   :actions [{:name :action/stripe-confirm-payment-intent}],
-   :from :state/pending-payment,
-   :to :state/preauthorized}
   {:name :transition/accept,
    :actor :actor.role/provider,
    :actions
-   [{:name :action/accept-booking}
-    {:name :action/stripe-capture-payment-intent}],
+   [{:name :action/accept-booking}],
    :from :state/preauthorized,
    :to :state/accepted}
   {:name :transition/operator-accept,
    :actor :actor.role/operator,
    :actions
-   [{:name :action/accept-booking}
-    {:name :action/stripe-capture-payment-intent}],
+   [{:name :action/accept-booking}],
    :from :state/preauthorized,
    :to :state/accepted}
   {:name :transition/decline,
    :actor :actor.role/provider,
    :actions
-   [{:name :action/calculate-full-refund}
-    {:name :action/stripe-refund-payment}
-    ;; Keep this action last in the list of actions for
-    ;; the transition
-    {:name :action/decline-booking}],
+   [{:name :action/decline-booking}],
    :from :state/preauthorized,
    :to :state/declined}
   {:name :transition/operator-decline,
    :actor :actor.role/operator,
    :actions
-   [{:name :action/calculate-full-refund}
-    {:name :action/stripe-refund-payment}
-    ;; Keep this action last in the list of actions for
-    ;; the transition
-    {:name :action/decline-booking}],
+   [{:name :action/decline-booking}],
    :from :state/preauthorized,
    :to :state/declined}
   {:name :transition/expire,
@@ -85,33 +55,25 @@
       [{:fn/timepoint [:time/booking-start]} {:fn/period ["P1D"]}]}
      {:fn/timepoint [:time/booking-end]}]},
    :actions
-   [{:name :action/calculate-full-refund}
-    {:name :action/stripe-refund-payment}
-    ;; Keep this action last in the list of actions for
-    ;; the transition
-    {:name :action/decline-booking}],
+   [{:name :action/decline-booking}],
    :from :state/preauthorized,
    :to :state/expired}
   {:name :transition/complete,
    :at
    {:fn/plus
     [{:fn/timepoint [:time/booking-end]} {:fn/period ["P2D"]}]},
-   :actions [{:name :action/stripe-create-payout}],
+   :actions [],
    :from :state/accepted,
    :to :state/delivered}
   {:name :transition/operator-complete,
    :actor :actor.role/operator,
-   :actions [{:name :action/stripe-create-payout}],
+   :actions [],
    :from :state/accepted,
    :to :state/delivered}
   {:name :transition/cancel,
    :actor :actor.role/operator,
    :actions
-   [{:name :action/calculate-full-refund}
-    {:name :action/stripe-refund-payment}
-    ;; Keep this action last in the list of actions for
-    ;; the transition
-    {:name :action/cancel-booking}],
+   [{:name :action/cancel-booking}],
    :from :state/accepted,
    :to :state/cancelled}
   {:name :transition/review-1-by-provider,
@@ -161,7 +123,7 @@
    :to :state/reviewed}],
  :notifications
  [{:name :notification/booking-new-request,
-   :on :transition/confirm-payment,
+   :on :transition/request-preauthorization,
    :to :actor.role/provider,
    :template :booking-new-request}
   {:name :notification/booking-accepted-request,
