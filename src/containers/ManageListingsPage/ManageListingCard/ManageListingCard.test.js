@@ -36,7 +36,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'free-inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
         amenities: ['dog_1'],
         location: {
@@ -51,7 +51,7 @@ describe('ManageListingCard', () => {
         id: 'free-inquiry',
         transactionProcess: {
           name: 'default-inquiry',
-          alias: 'default-inquiry/release-1',
+          alias: 'default-inquiry/release-44',
         },
         unitType: 'inquiry',
         defaultListingFields: {
@@ -95,7 +95,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'free-inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
         amenities: ['dog_1'],
         location: {
@@ -110,7 +110,7 @@ describe('ManageListingCard', () => {
         id: 'free-inquiry',
         transactionProcess: {
           name: 'default-inquiry',
-          alias: 'default-inquiry/release-1',
+          alias: 'default-inquiry/release-44',
         },
         unitType: 'inquiry',
         defaultListingFields: {
@@ -166,7 +166,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -221,7 +221,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -279,7 +279,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -336,7 +336,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -394,7 +394,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -437,7 +437,7 @@ describe('ManageListingCard', () => {
 
         publicData: {
           listingType: 'sell-bicycles-item',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           amenities: ['dog_1'],
           location: {
@@ -455,7 +455,7 @@ describe('ManageListingCard', () => {
         id: 'sell-bicycles-item',
         label: 'Sell products',
         transactionProcess: {
-          alias: 'default-purchase/release-1',
+          alias: 'default-purchase/release-44',
           name: 'default-purchase',
         },
         unitType: 'item',
@@ -498,7 +498,7 @@ describe('ManageListingCard', () => {
 
         publicData: {
           listingType: 'sell-bicycles-item',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           amenities: ['dog_1'],
           location: {
@@ -517,7 +517,7 @@ describe('ManageListingCard', () => {
         id: 'sell-bicycles-item',
         label: 'Sell products',
         transactionProcess: {
-          alias: 'default-purchase/release-1',
+          alias: 'default-purchase/release-44',
           name: 'default-purchase',
         },
         unitType: 'item',
@@ -565,7 +565,7 @@ describe('ManageListingCard', () => {
         state: 'draft',
         publicData: {
           listingType: 'sell-bicycles-item',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           amenities: ['dog_1'],
           location: {
@@ -584,7 +584,7 @@ describe('ManageListingCard', () => {
         id: 'sell-bicycles-item',
         label: 'Sell products',
         transactionProcess: {
-          alias: 'default-purchase/release-1',
+          alias: 'default-purchase/release-44',
           name: 'default-purchase',
         },
         unitType: 'item',
@@ -630,7 +630,7 @@ describe('ManageListingCard', () => {
 
         publicData: {
           listingType: 'sell-bicycles-item',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           amenities: ['dog_1'],
           location: {
@@ -648,7 +648,7 @@ describe('ManageListingCard', () => {
         id: 'sell-bicycles-item',
         label: 'Sell products',
         transactionProcess: {
-          alias: 'default-purchase/release-1',
+          alias: 'default-purchase/release-44',
           name: 'default-purchase',
         },
         unitType: 'item',
@@ -689,7 +689,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'sell-bicycles-item',
-        transactionProcessAlias: 'default-purchase/release-1',
+        transactionProcessAlias: 'default-purchase/release-44',
         unitType: 'item',
         amenities: ['dog_1'],
         location: {
@@ -703,7 +703,7 @@ describe('ManageListingCard', () => {
         id: 'sell-bicycles-item',
         label: 'Sell products',
         transactionProcess: {
-          alias: 'default-purchase/release-1',
+          alias: 'default-purchase/release-44',
           name: 'default-purchase',
         },
         unitType: 'item',
@@ -744,7 +744,7 @@ describe('ManageListingCard', () => {
 
       publicData: {
         listingType: 'sell-bicycles-item',
-        transactionProcessAlias: 'default-purchase/release-1',
+        transactionProcessAlias: 'default-purchase/release-44',
         unitType: 'item',
         amenities: ['dog_1'],
         location: {
@@ -758,7 +758,7 @@ describe('ManageListingCard', () => {
         id: 'sell-bicycles-item',
         label: 'Sell products',
         transactionProcess: {
-          alias: 'default-purchase/release-1',
+          alias: 'default-purchase/release-44',
           name: 'default-purchase',
         },
         unitType: 'item',
@@ -796,7 +796,7 @@ describe('ManageListingCard', () => {
         id: 'sell-bicycles-item',
         label: 'Sell products',
         transactionProcess: {
-          alias: 'default-purchase/release-1',
+          alias: 'default-purchase/release-44',
           name: 'default-purchase',
         },
         unitType: 'item',
@@ -809,7 +809,7 @@ describe('ManageListingCard', () => {
         listing={createOwnListing('listing1', {
           publicData: {
             listingType: 'product-selling',
-            transactionProcessAlias: 'default-purchase/release-1',
+            transactionProcessAlias: 'default-purchase/release-44',
           },
         })}
         intl={fakeIntl}

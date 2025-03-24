@@ -272,7 +272,7 @@ export const listingTypes = [
     label: 'Daily booking',
     transactionType: {
       process: 'default-booking',
-      alias: 'default-booking/release-1',
+      alias: '',
       unitType: 'day',
     },
     availabilityType: 'oneSeat',
@@ -288,7 +288,7 @@ export const listingTypes = [
   //   label: 'Nightly booking',
   //   transactionType: {
   //     process: 'default-booking',
-  //     alias: 'default-booking/release-1',
+  //     alias: 'default-booking/release-44',
   //     unitType: 'night',
   //   },
   // },
@@ -297,7 +297,7 @@ export const listingTypes = [
   //   label: 'Hourly booking',
   //   transactionType: {
   //     process: 'default-booking',
-  //     alias: 'default-booking/release-1',
+  //     alias: 'default-booking/release-44',
   //     unitType: 'hour',
   //   },
   // },
@@ -306,7 +306,7 @@ export const listingTypes = [
   //   label: 'Sell bicycles',
   //   transactionType: {
   //     process: 'default-purchase',
-  //     alias: 'default-purchase/release-1',
+  //     alias: 'default-purchase/release-44',
   //     unitType: 'item',
   //   },
   //   stockType: 'multipleItems',
@@ -321,7 +321,7 @@ export const listingTypes = [
   //   label: 'Inquiry',
   //   transactionType: {
   //     process: 'default-inquiry',
-  //     alias: 'default-inquiry/release-1',
+  //     alias: 'default-inquiry/release-44',
   //     unitType: 'inquiry',
   //   },
   //   defaultListingFields: {

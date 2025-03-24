@@ -17,7 +17,7 @@ import {
   getDefaultConfiguration,
 } from '../../util/testHelpers';
 
-import CheckoutPageWithPayment from './CheckoutPageWithPayment';
+import CheckoutPageWithoutPayment from './CheckoutPageWithoutPayment';
 import CheckoutPageWithInquiryProcess from './CheckoutPageWithInquiryProcess';
 import checkoutPageReducer, { SET_INITIAL_VALUES, setInitialValues } from './CheckoutPage.duck';
 
@@ -108,7 +108,7 @@ describe('CheckoutPage', () => {
   it('Check that purchase has relevant info', () => {
     const listing = createListing(
       'listing1',
-      { publicData: { transactionProcessAlias: 'default-purchase/release-1', unitType: 'item' } },
+      { publicData: { transactionProcessAlias: 'default-purchase/release-44', unitType: 'item' } },
       { author: createUser('author'), images: [createImage('first-image')] }
     );
 
@@ -138,7 +138,7 @@ describe('CheckoutPage', () => {
       }),
     };
 
-    render(<CheckoutPageWithPayment {...props} />);
+    render(<CheckoutPageWithoutPayment {...props} />);
 
     const purchaseTitle = 'CheckoutPage.default-purchase.title';
     expect(screen.getByRole('heading', { name: purchaseTitle })).toBeInTheDocument();
@@ -182,7 +182,7 @@ describe('CheckoutPage', () => {
   it('Check that booking has relevant info', () => {
     const listing = createListing(
       'listing1',
-      { publicData: { transactionProcessAlias: 'default-booking/release-1', unitType: 'day' } },
+      { publicData: { transactionProcessAlias: 'default-booking/release-44', unitType: 'day' } },
       { author: createUser('author'), images: [createImage('first-image')] }
     );
 
@@ -201,7 +201,7 @@ describe('CheckoutPage', () => {
         total: new Money(2500, 'USD'),
       }),
     };
-    render(<CheckoutPageWithPayment {...props} />);
+    render(<CheckoutPageWithoutPayment {...props} />);
 
     const bookingTitle = 'CheckoutPage.default-booking.title';
     expect(screen.getByRole('heading', { name: bookingTitle })).toBeInTheDocument();
@@ -239,7 +239,7 @@ describe('CheckoutPage', () => {
       {
         publicData: {
           listingType: 'inquiry',
-          transactionProcessAlias: 'default-inquiry/release-1',
+          transactionProcessAlias: 'default-inquiry/release-44',
           unitType: 'inquiry',
         },
       },
@@ -269,7 +269,7 @@ describe('CheckoutPage', () => {
               label: 'Inquiry',
               transactionType: {
                 process: 'default-inquiry',
-                alias: 'default-inquiry/release-1',
+                alias: 'default-inquiry/release-44',
                 unitType: 'inquiry',
               },
               defaultListingFields: {
@@ -317,7 +317,7 @@ describe('CheckoutPage', () => {
       {
         publicData: {
           listingType: 'inquiry',
-          transactionProcessAlias: 'default-inquiry/release-1',
+          transactionProcessAlias: 'default-inquiry/release-44',
           unitType: 'inquiry',
         },
       },
@@ -347,7 +347,7 @@ describe('CheckoutPage', () => {
               label: 'Inquiry',
               transactionType: {
                 process: 'default-inquiry',
-                alias: 'default-inquiry/release-1',
+                alias: 'default-inquiry/release-44',
                 unitType: 'inquiry',
               },
               defaultListingFields: {

@@ -416,6 +416,11 @@ class EditListingWizard extends Component {
     this.hasScrolledToTab = shouldScroll;
   }
 
+  // 22/03/2025
+  handlePublishListing(id) {
+    this.props.onPublishListingDraft(id);
+  }
+/*
   handlePublishListing(id) {
     const { onPublishListingDraft, currentUser, stripeAccount, listing, config } = this.props;
     const processName = listing?.attributes?.publicData?.transactionProcessAlias.split('/')[0];
@@ -447,7 +452,7 @@ class EditListingWizard extends Component {
       });
     }
   }
-
+*/
   handlePayoutModalClose() {
     this.setState({ showPayoutDetails: false });
   }

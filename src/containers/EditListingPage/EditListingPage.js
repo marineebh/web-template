@@ -24,10 +24,11 @@ import { ensureOwnListing } from '../../util/data';
 import { hasPermissionToPostListings, isUserAuthorized } from '../../util/userHelpers';
 import { getMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/ui.duck';
-import {
-  stripeAccountClearError,
-  getStripeConnectAccountLink,
-} from '../../ducks/stripeConnectAccount.duck';
+//import {
+//  stripeAccountClearError,
+//  getStripeConnectAccountLink,
+//} from '../../ducks/stripeConnectAccount.duck';
+// 22/03/2025
 
 // Import shared components
 import { NamedRedirect, Page } from '../../components';
@@ -43,17 +44,18 @@ import {
   requestUpdateListing,
   requestImageUpload,
   removeListingImage,
-  savePayoutDetails,
+  //savePayoutDetails,
 } from './EditListingPage.duck';
 import EditListingWizard from './EditListingWizard/EditListingWizard';
 import css from './EditListingPage.module.css';
 
+/*
 const STRIPE_ONBOARDING_RETURN_URL_SUCCESS = 'success';
 const STRIPE_ONBOARDING_RETURN_URL_FAILURE = 'failure';
 const STRIPE_ONBOARDING_RETURN_URL_TYPES = [
   STRIPE_ONBOARDING_RETURN_URL_SUCCESS,
   STRIPE_ONBOARDING_RETURN_URL_FAILURE,
-];
+];*/ // 22/03/2025
 
 const { UUID } = sdkTypes;
 
@@ -131,12 +133,12 @@ export const EditListingPageComponent = props => {
   const intl = useIntl();
   const {
     currentUser,
-    createStripeAccountError,
+    //createStripeAccountError,
     fetchInProgress,
-    fetchStripeAccountError,
+    //fetchStripeAccountError,
     getOwnListing,
-    getAccountLinkError,
-    getAccountLinkInProgress,
+    //getAccountLinkError,
+    //getAccountLinkInProgress,
     history,
     onFetchExceptions,
     onAddAvailabilityException,
@@ -147,16 +149,16 @@ export const EditListingPageComponent = props => {
     onImageUpload,
     onRemoveListingImage,
     onManageDisableScrolling,
-    onPayoutDetailsSubmit,
-    onPayoutDetailsChange,
-    onGetStripeConnectAccountLink,
+    //onPayoutDetailsSubmit,
+    //onPayoutDetailsChange,
+    //onGetStripeConnectAccountLink,
     page,
     params,
     location,
     scrollingDisabled,
-    stripeAccountFetched,
-    stripeAccount,
-    updateStripeAccountError,
+    //stripeAccountFetched,
+    //stripeAccount,
+    //updateStripeAccountError,
   } = props;
 
   const { id, type, returnURLType } = params;
@@ -240,7 +242,7 @@ export const EditListingPageComponent = props => {
       showListingsError,
       uploadImageError,
       setStockError,
-      createStripeAccountError,
+      //createStripeAccountError,
       addExceptionError,
       deleteExceptionError,
     };
@@ -271,6 +273,8 @@ export const EditListingPageComponent = props => {
         <EditListingWizard
           id="EditListingWizard"
           className={css.wizard}
+          // 22/03/2025
+          
           params={params}
           locationSearch={parse(location.search)}
           disabled={disableForm}
@@ -289,18 +293,18 @@ export const EditListingPageComponent = props => {
           onUpdateListing={onUpdateListing}
           onCreateListingDraft={onCreateListingDraft}
           onPublishListingDraft={onPublishListingDraft}
-          onPayoutDetailsChange={onPayoutDetailsChange}
-          onPayoutDetailsSubmit={onPayoutDetailsSubmit}
-          onGetStripeConnectAccountLink={onGetStripeConnectAccountLink}
-          getAccountLinkInProgress={getAccountLinkInProgress}
+          //onPayoutDetailsChange={onPayoutDetailsChange}
+          //onPayoutDetailsSubmit={onPayoutDetailsSubmit}
+          //onGetStripeConnectAccountLink={onGetStripeConnectAccountLink}
+          //getAccountLinkInProgress={getAccountLinkInProgress}
           onImageUpload={onImageUpload}
           onRemoveImage={onRemoveListingImage}
           currentUser={currentUser}
           onManageDisableScrolling={onManageDisableScrolling}
-          stripeOnboardingReturnURL={params.returnURLType}
+          //stripeOnboardingReturnURL={params.returnURLType}
           updatedTab={page.updatedTab}
           updateInProgress={page.updateInProgress || page.createListingDraftInProgress}
-          payoutDetailsSaveInProgress={page.payoutDetailsSaveInProgress}
+          /*payoutDetailsSaveInProgress={page.payoutDetailsSaveInProgress}
           payoutDetailsSaved={page.payoutDetailsSaved}
           stripeAccountFetched={stripeAccountFetched}
           stripeAccount={stripeAccount}
@@ -308,6 +312,7 @@ export const EditListingPageComponent = props => {
             createStripeAccountError || updateStripeAccountError || fetchStripeAccountError
           }
           stripeAccountLinkError={getAccountLinkError}
+          */
         />
       </Page>
     );
@@ -331,7 +336,7 @@ export const EditListingPageComponent = props => {
 
 const mapStateToProps = state => {
   const page = state.EditListingPage;
-  const {
+  /*const {
     getAccountLinkInProgress,
     getAccountLinkError,
     createStripeAccountInProgress,
@@ -341,20 +346,21 @@ const mapStateToProps = state => {
     stripeAccount,
     stripeAccountFetched,
   } = state.stripeConnectAccount;
-
+*/
+// 22/03/2025
   const getOwnListing = id => {
     const listings = getMarketplaceEntities(state, [{ id, type: 'ownListing' }]);
     return listings.length === 1 ? listings[0] : null;
   };
 
   return {
-    getAccountLinkInProgress,
-    getAccountLinkError,
-    createStripeAccountError,
-    updateStripeAccountError,
-    fetchStripeAccountError,
-    stripeAccount,
-    stripeAccountFetched,
+    //getAccountLinkInProgress,
+    //getAccountLinkError,
+    //createStripeAccountError,
+    //updateStripeAccountError,
+    //fetchStripeAccountError,
+    //stripeAccount,
+    //stripeAccountFetched,
     currentUser: state.user.currentUser,
     fetchInProgress: createStripeAccountInProgress,
     getOwnListing,
@@ -375,10 +381,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(requestImageUpload(data, listingImageConfig)),
   onManageDisableScrolling: (componentId, disableScrolling) =>
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
-  onPayoutDetailsChange: () => dispatch(stripeAccountClearError()),
-  onPayoutDetailsSubmit: (values, isUpdateCall) =>
-    dispatch(savePayoutDetails(values, isUpdateCall)),
-  onGetStripeConnectAccountLink: params => dispatch(getStripeConnectAccountLink(params)),
+  //onPayoutDetailsChange: () => dispatch(stripeAccountClearError()),
+  //onPayoutDetailsSubmit: (values, isUpdateCall) =>
+  //  dispatch(savePayoutDetails(values, isUpdateCall)),
+  //onGetStripeConnectAccountLink: params => dispatch(getStripeConnectAccountLink(params)),
   onRemoveListingImage: imageId => dispatch(removeListingImage(imageId)),
 });
 

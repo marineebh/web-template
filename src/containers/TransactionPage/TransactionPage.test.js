@@ -145,7 +145,7 @@ describe('TransactionPage', () => {
           listing: createListing('listing-item', {
             publicData: {
               listingType: 'sell-bikes',
-              transactionProcessAlias: 'default-purchase/release-1',
+              transactionProcessAlias: 'default-purchase/release-44',
               unitType: 'item',
             },
           }),
@@ -285,7 +285,7 @@ describe('TransactionPage', () => {
           listing: createListing('listing-item', {
             publicData: {
               listingType: 'sell-bikes',
-              transactionProcessAlias: 'default-purchase/release-1',
+              transactionProcessAlias: 'default-purchase/release-44',
               unitType: 'item',
             },
           }),
@@ -441,7 +441,7 @@ describe('TransactionPage', () => {
           listing: createListing('listing-item', {
             publicData: {
               listingType: 'rent-bikes',
-              transactionProcessAlias: 'default-booking/release-1',
+              transactionProcessAlias: 'default-booking/release-44',
               unitType: 'day',
             },
           }),
@@ -611,7 +611,7 @@ describe('TransactionPage', () => {
           listing: createListing('listing-item', {
             publicData: {
               listingType: 'rent-bikes',
-              transactionProcessAlias: 'default-booking/release-1',
+              transactionProcessAlias: 'default-booking/release-44',
               unitType: 'day',
             },
           }),
@@ -777,7 +777,7 @@ describe('TransactionPage', () => {
           listing: createListing('listing-item', {
             publicData: {
               listingType: 'rent-bikes',
-              transactionProcessAlias: 'default-booking/release-1',
+              transactionProcessAlias: 'default-booking/release-44',
               unitType: 'hour',
             },
           }),
@@ -946,7 +946,7 @@ describe('TransactionPage', () => {
           listing: createListing('listing-item', {
             publicData: {
               listingType: 'rent-bikes',
-              transactionProcessAlias: 'default-booking/release-1',
+              transactionProcessAlias: 'default-booking/release-44',
               unitType: 'hour',
             },
           }),
@@ -1079,7 +1079,7 @@ describe('TransactionPage', () => {
         listing: createListing('listing-item', {
           publicData: {
             listingType: `${processName}-bikes`,
-            transactionProcessAlias: `${processName}/release-1`,
+            transactionProcessAlias: `${processName}/release-44`,
             unitType,
           },
         }),

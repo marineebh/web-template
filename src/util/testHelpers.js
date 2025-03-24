@@ -172,7 +172,7 @@ export const getDefaultConfiguration = () => {
           label: 'Rent bicycles',
           transactionType: {
             process: 'default-booking',
-            alias: 'default-booking/release-1',
+            alias: 'default-booking/release-44',
             unitType: 'day',
           },
         },
@@ -181,7 +181,7 @@ export const getDefaultConfiguration = () => {
           label: 'Sell products',
           transactionType: {
             process: 'default-purchase',
-            alias: 'default-purchase/release-1',
+            alias: 'default-purchase/release-44',
             unitType: 'item',
           },
         },
@@ -316,7 +316,7 @@ export const getHostedConfiguration = () => {
       listingTypes: [
         {
           transactionProcess: {
-            alias: 'default-booking/release-1',
+            alias: 'default-booking/release-44',
             name: 'default-booking',
           },
           id: 'daily-booking',
@@ -325,7 +325,7 @@ export const getHostedConfiguration = () => {
         },
         {
           transactionProcess: {
-            alias: 'default-purchase/release-1',
+            alias: 'default-purchase/release-44',
             name: 'default-purchase',
           },
           id: 'product-selling',
@@ -334,7 +334,7 @@ export const getHostedConfiguration = () => {
         },
         {
           transactionProcess: {
-            alias: 'default-inquiry/release-1',
+            alias: 'default-inquiry/release-44',
             name: 'default-inquiry',
           },
           id: 'inquiry',

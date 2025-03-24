@@ -51,7 +51,7 @@ const listingTypes = [
     id: 'sell-bicycles',
     transactionProcess: {
       name: 'default-purchase',
-      alias: 'default-purchase/release-1',
+      alias: 'default-purchase/release-44',
     },
     unitType: 'item',
   },
@@ -59,7 +59,7 @@ const listingTypes = [
     id: 'rent-bicycles-nightly',
     transactionProcess: {
       name: 'default-booking',
-      alias: 'default-booking/release-1',
+      alias: 'default-booking/release-44',
     },
     unitType: 'night',
   },
@@ -154,7 +154,7 @@ const id = 'listing1';
 const slug = 'listing1-title';
 const publicData = {
   listingType: 'sell-bicycles', // Ensure listing field can be tied to listing type
-  transactionProcessAlias: 'default-purchase/release-1',
+  transactionProcessAlias: 'default-purchase/release-44',
   unitType: 'item',
   categoryLevel1: 'cats', // Ensure listing field can be tied to category
   cat: 'cat_1',

@@ -16,7 +16,7 @@ const getConfig = () => {
           id: 'free-inquiry',
           transactionProcess: {
             name: 'default-inquiry',
-            alias: 'default-inquiry/release-1',
+            alias: 'default-inquiry/release-44',
           },
           unitType: 'inquiry',
           defaultListingFields: {

@@ -8,7 +8,7 @@ const selectableListingTypes = [
   {
     listingType: 'sell-bicycles',
     label: 'Sell bicycles',
-    transactionProcessAlias: 'default-purchase/release-1',
+    transactionProcessAlias: 'default-purchase/release-44',
     unitType: 'item',
   },
 ];
@@ -65,7 +65,7 @@ export const WithInitialValues = {
       title: 'Listing',
       description: 'Lorem ipsum',
       listingType: 'sell-bicycles',
-      transactionProcessAlias: 'default-purchase/release-1',
+      transactionProcessAlias: 'default-purchase/release-44',
       unitType: 'item',
       categoryLevel1: 'sneakers',
       categoryLevel2: 'adidas',
@@ -78,13 +78,13 @@ const selectableListingTypes2 = [
   {
     listingType: 'daily-booking',
     label: 'Daily booking',
-    transactionProcessAlias: 'default-booking/release-1',
+    transactionProcessAlias: '',
     unitType: 'day',
   },
   {
     listingType: 'sell-bicycles',
     label: 'Sell bicycles',
-    transactionProcessAlias: 'default-purchase/release-1',
+    transactionProcessAlias: '',
     unitType: 'item',
   },
 ];

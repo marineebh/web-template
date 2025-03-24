@@ -48,6 +48,86 @@ const methods = {
   DELETE: 'DELETE',
 };
 
+const request = (path, options = {}) => {
+  const url = `${apiBaseUrl()}${path}`;
+  let { credentials, headers, body, ...rest } = options;
+
+  // If headers are not set, assume body should be serialized as transit format
+  const shouldSerializeBody =
+    (!headers || headers['Content-Type'] === 'application/transit+json') && body;
+  const bodyMaybe = shouldSerializeBody ? { body: serialize(body) } : {};
+
+  // Ajouter les headers par défaut après la déclaration de bodyMaybe
+  headers = {
+    ...getTransactionHeaders(),
+    ...headers,
+    'Accept': 'application/json, application/transit+json'
+  };
+
+  const fetchOptions = {
+    credentials: credentials || 'include',
+    headers,
+    ...bodyMaybe,
+    ...rest
+  };
+
+  return window.fetch(url, fetchOptions)
+    .then(async response => {
+      const contentTypeHeader = response.headers.get('Content-Type');
+      const contentType = contentTypeHeader ? contentTypeHeader.split(';')[0] : null;
+
+      if (response.status === 403) {
+        const errorData = await response.json();
+        console.error('Erreur d\'autorisation:', {
+          status: response.status,
+          headers: headers,
+          error: errorData,
+          endpoint: path
+        });
+        
+        if (errorData.code === 'missing-capabilities') {
+          throw new Error('MISSING_CAPABILITIES');
+        }
+        if (errorData.code === 'invalid-client-id') {
+          throw new Error('INVALID_CLIENT_ID');
+        }
+        
+        throw new Error(errorData.code || 'AUTHORIZATION_ERROR');
+      }
+
+      if (response.status >= 400) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'API request failed');
+      }
+
+      if (contentType === 'application/transit+json') {
+        return response.text().then(deserialize);
+      } else if (contentType === 'application/json') {
+        return response.json();
+      }
+      return response.text();
+    });
+};
+
+
+
+
+export const checkApiCapabilities = async () => {
+  try {
+    const response = await request('/api/capabilities', {
+      method: methods.GET,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.capabilities?.includes('transactionWithoutPayment');
+  } catch (error) {
+    console.error('Erreur lors de la vérification des capabilities:', error);
+    return false;
+  }
+};
+
+/* vrai
 // If server/api returns data from SDK, you should set Content-Type to 'application/transit+json'
 const request = (path, options = {}) => {
   const url = `${apiBaseUrl()}${path}`;
@@ -66,7 +146,55 @@ const request = (path, options = {}) => {
     ...bodyMaybe,
     ...rest,
   };
+  
+  return window.fetch(url, fetchOptions).then(res => {
+    const contentTypeHeader = res.headers.get('Content-Type');
+    const contentType = contentTypeHeader ? contentTypeHeader.split(';')[0] : null;
 
+    if (res.status >= 400) {
+      return res.json().then(data => {
+        let e = new Error();
+        e = Object.assign(e, data);
+
+        throw e;
+      });
+    }
+    if (contentType === 'application/transit+json') {
+      return res.text().then(deserialize);
+    } else if (contentType === 'application/json') {
+      return res.json();
+    }
+    return res.text();
+  });
+};*/
+
+/* chat
+const request = (path, options = {}) => {
+  const url = `${apiBaseUrl()}${path}`;
+  let { credentials, headers, body, ...rest } = options;
+
+  // If headers are not set, we assume that the body should be serialized as transit format.
+  const shouldSerializeBody =
+    (!headers || headers['Content-Type'] === 'application/transit+json') && body;
+  const bodyMaybe = shouldSerializeBody ? { body: serialize(body) } : {};
+
+  // Supprimer les en-têtes liés à Stripe
+  if (headers) {
+    delete headers['Stripe-Account'];
+    delete headers['Stripe-Version'];
+  } else {
+    headers = {};
+  }
+
+  const fetchOptions = {
+    credentials: credentials || 'include',
+    // Since server/api mostly talks to Marketplace API using SDK,
+    // we default to 'application/transit+json' as content type (as SDK uses transit).
+    headers: headers || { 'Content-Type': 'application/transit+json' },
+    ...bodyMaybe,
+    ...rest,
+  };
+  
   return window.fetch(url, fetchOptions).then(res => {
     const contentTypeHeader = res.headers.get('Content-Type');
     const contentType = contentTypeHeader ? contentTypeHeader.split(';')[0] : null;
@@ -88,6 +216,9 @@ const request = (path, options = {}) => {
   });
 };
 
+
+*/
+
 // Keep the previous parameter order for the post method.
 // For now, only POST has own specific function, but you can create more or use request directly.
 const post = (path, body, options = {}) => {
@@ -104,9 +235,28 @@ const post = (path, body, options = {}) => {
 //
 // See `server/api/transaction-line-items.js` to see what data should
 // be sent in the body.
+
 export const transactionLineItems = body => {
-  return post('/api/transaction-line-items', body);
+  const headers = {
+    'Content-Type': 'application/transit+json',
+    'X-Transaction-Type': 'no-payment',
+    'X-Line-Items-Mode': 'no-payment'
+  };
+  
+  return post('/api/transaction-line-items', body, { headers }).catch(error => {
+    console.error('Transaction line items error:', error);
+    // Retourner un tableau vide en cas d'erreur pour éviter l'erreur undefined
+    return { data: [] };
+  });
 };
+
+
+//vraie
+// export const transactionLineItems = body => {
+//   return post('/api/transaction-line-items', body);
+// };
+
+
 
 // Initiate a privileged transaction.
 //
@@ -116,9 +266,72 @@ export const transactionLineItems = body => {
 //
 // See `server/api/initiate-privileged.js` to see what data should be
 // sent in the body.
-export const initiatePrivileged = body => {
-  return post('/api/initiate-privileged', body);
+
+const REQUIRED_CAPABILITIES = {
+  TRANSACTIONS: [
+    'transition/inquire',
+    'transition/request-booking',
+    'transition/accept',
+    'transition/decline'
+  ],
+  PRIVILEGED: [
+    'privileged-set-line-items',
+    'privileged/transition-privileged'
+  ],
+  BOOKING: ['booking/manage-bookings'],
+  AUTH: ['auth/privileged-set-client-id']
 };
+
+const getTransactionHeaders = () => {
+  return {
+    'Content-Type': 'application/transit+json',
+    'X-Capabilities': [
+      ...REQUIRED_CAPABILITIES.TRANSACTIONS,
+      ...REQUIRED_CAPABILITIES.BOOKING
+    ].join(','),
+    'X-Process-Capabilities': REQUIRED_CAPABILITIES.PRIVILEGED.join(','),
+    'X-Client-Type': 'web-template',
+    'Authorization': `Client-ID ${process.env.REACT_APP_SHARETRIBE_SDK_CLIENT_ID}`
+  };
+};
+
+export const initiatePrivileged = async (params) => {
+  const headers = {
+    ...getTransactionHeaders(),
+    'X-Privileged-Mode': 'true',
+    'X-Transaction-Process': 'default-booking/release-44', // Utilisez le processus défini dans process.edn
+  };
+
+  const body = {
+    ...params,
+    meta: {
+      ...params.meta,
+      transactionProcessAlias: 'default-booking/release-44', // Utilisez le processus défini dans process.edn
+    }
+  };
+
+  try {
+    const response = await post('/api/initiate-privileged', body, { headers });
+    return response;
+  } catch (error) {
+    if (error.status === 403) {
+      console.error('Détails de l\'erreur d\'autorisation:', {
+        message: error.message,
+        capabilities: headers['X-Capabilities'],
+        processCapabilities: headers['X-Process-Capabilities'],
+        clientId: process.env.REACT_APP_SHARETRIBE_SDK_CLIENT_ID
+      });
+      throw new Error('MISSING_CAPABILITIES');
+    }
+    throw error;
+  }
+};
+
+// export const initiatePrivileged = body => {
+//   return post('/api/initiate-privileged', body);
+// };
+
+
 
 // Transition a transaction with a privileged transition.
 //
@@ -130,7 +343,7 @@ export const initiatePrivileged = body => {
 // be sent in the body.
 export const transitionPrivileged = body => {
   return post('/api/transition-privileged', body);
-};
+}; 
 
 // Create user with identity provider (e.g. Facebook or Google)
 //
@@ -143,4 +356,24 @@ export const transitionPrivileged = body => {
 // be sent in the body.
 export const createUserWithIdp = body => {
   return post('/api/auth/create-user-with-idp', body);
+};
+
+
+export const verifyAuthentication = async () => {
+  try {
+    const headers = {
+      ...getTransactionHeaders(),
+      'X-Auth-Check': 'true'
+    };
+    
+    const response = await request('/api/auth/verify', { 
+      method: methods.GET,
+      headers 
+    });
+    
+    return response.authenticated;
+  } catch (error) {
+    console.error('Erreur de vérification d\'authentification:', error);
+    return false;
+  }
 };

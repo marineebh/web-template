@@ -56,7 +56,7 @@ const tx = lastTransition =>
     listing: createListing('ItemX', {
       publicData: {
         listingType: 'product-selling',
-        transactionProcessAlias: 'default-purchase/release-1',
+        transactionProcessAlias: 'default-purchase/release-44',
         unitType: 'item',
       },
     }),

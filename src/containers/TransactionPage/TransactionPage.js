@@ -29,7 +29,7 @@ import {
 
 import { getMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 import { isScrollingDisabled, manageDisableScrolling } from '../../ducks/ui.duck';
-import { initializeCardPaymentData } from '../../ducks/stripe.duck.js';
+//import { initializeCardPaymentData } from '../../ducks/stripe.duck.js';
 
 import {
   H4,
@@ -139,7 +139,7 @@ export const TransactionPageComponent = props => {
   const {
     currentUser,
     initialMessageFailedToTransaction,
-    savePaymentMethodFailed = false,
+    //savePaymentMethodFailed = false,
     fetchMessagesError,
     fetchMessagesInProgress,
     totalMessagePages,
@@ -166,8 +166,9 @@ export const TransactionPageComponent = props => {
     onFetchTimeSlots,
     nextTransitions,
     callSetInitialValues,
-    onInitializeCardPaymentData,
-    onFetchTransactionLineItems,
+    //onInitializeCardPaymentData,
+    //22/03/2025
+    //onFetchTransactionLineItems,
     lineItems,
     fetchLineItemsInProgress,
     fetchLineItemsError,
@@ -187,7 +188,8 @@ export const TransactionPageComponent = props => {
   }
 
   const isTxOnPaymentPending = tx => {
-    return process ? process.getState(tx) === process.states.PENDING_PAYMENT : null;
+    //return process ? process.getState(tx) === process.states.PENDING_PAYMENT : null;
+    return false;
   };
 
   const redirectToCheckoutPageWithInitialValues = (initialValues, currentListing) => {
@@ -196,7 +198,7 @@ export const TransactionPageComponent = props => {
     callSetInitialValues(setInitialValues, initialValues);
 
     // Clear previous Stripe errors from store if there is any
-    onInitializeCardPaymentData();
+    //onInitializeCardPaymentData();
 
     // Redirect to CheckoutPage
     history.push(
@@ -236,8 +238,30 @@ export const TransactionPageComponent = props => {
     redirectToCheckoutPageWithInitialValues(initialValues, listing);
   }
 
+
+  // Ajouter cette fonction helper
+  const checkTransactionCapabilities = (transaction, config) => {
+    const capabilities = config?.sdk?.capabilities || [];
+    const requiredCapabilities = ['transactionWithoutPayment'];
+    
+    const hasRequiredCapabilities = requiredCapabilities.every(cap => 
+      capabilities.includes(cap)
+    );
+
+    if (!hasRequiredCapabilities) {
+      console.error('Missing required API capabilities for transactions without payment');
+      return false;
+    }
+    return true;
+  };
+
+
   // Customer can create a booking, if the tx is in "inquiry" state.
   const handleSubmitOrderRequest = values => {
+    if (!checkTransactionCapabilities(transaction, config)) {
+      // Gérer l'erreur de capabilities manquantes
+      return;
+    }
     const {
       bookingDates,
       bookingStartTime,
@@ -447,12 +471,15 @@ export const TransactionPageComponent = props => {
     ? {
         orderBreakdown: (
           <OrderBreakdown
+          // 22/03/2025
+          /*
             className={css.breakdown}
             userRole={transactionRole}
             transaction={transaction}
             {...txBookingMaybe}
             currency={config.currency}
             marketplaceName={config.marketplaceName}
+            */
           />
         ),
       }
@@ -532,7 +559,8 @@ export const TransactionPageComponent = props => {
           onManageDisableScrolling={onManageDisableScrolling}
           onFetchTimeSlots={onFetchTimeSlots}
           monthlyTimeSlots={monthlyTimeSlots}
-          onFetchTransactionLineItems={onFetchTransactionLineItems}
+          // 22/03/2025
+          //onFetchTransactionLineItems={onFetchTransactionLineItems}
           lineItems={lineItems}
           fetchLineItemsInProgress={fetchLineItemsInProgress}
           fetchLineItemsError={fetchLineItemsError}
@@ -600,7 +628,7 @@ const mapStateToProps = state => {
     oldestMessagePageFetched,
     messages,
     initialMessageFailedToTransaction,
-    savePaymentMethodFailed,
+    //savePaymentMethodFailed,
     sendMessageInProgress,
     sendMessageError,
     sendReviewInProgress,
@@ -629,7 +657,7 @@ const mapStateToProps = state => {
     oldestMessagePageFetched,
     messages,
     initialMessageFailedToTransaction,
-    savePaymentMethodFailed,
+    //savePaymentMethodFailed,
     sendMessageInProgress,
     sendMessageError,
     sendReviewInProgress,
@@ -653,9 +681,10 @@ const mapDispatchToProps = dispatch => {
     onSendReview: (tx, transitionOptions, params, config) =>
       dispatch(sendReview(tx, transitionOptions, params, config)),
     callSetInitialValues: (setInitialValues, values) => dispatch(setInitialValues(values)),
-    onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
-    onFetchTransactionLineItems: (orderData, listingId, isOwnListing) =>
-      dispatch(fetchTransactionLineItems(orderData, listingId, isOwnListing)),
+    //onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
+    // 22/03/2025
+    /*onFetchTransactionLineItems: (orderData, listingId, isOwnListing) =>
+      dispatch(fetchTransactionLineItems(orderData, listingId, isOwnListing)),*/
     onFetchTimeSlots: (listingId, start, end, timeZone) =>
       dispatch(fetchTimeSlots(listingId, start, end, timeZone)),
   };

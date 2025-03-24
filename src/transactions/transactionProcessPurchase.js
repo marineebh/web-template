@@ -121,7 +121,7 @@ export const graph = {
   // id is defined only to support Xstate format.
   // However if you have multiple transaction processes defined,
   // it is best to keep them in sync with transaction process aliases.
-  id: 'default-purchase/release-1',
+  id: 'default-purchase/release-44',
 
   // This 'initial' state is a starting point for new transaction
   initial: states.INITIAL,

@@ -8,19 +8,17 @@
    :actor :actor.role/customer,
    :actions
    [{:name :action/update-protected-data}
-    {:name :action/create-pending-booking, :config {:type :time}}
-    {:name :action/privileged-set-line-items}],
+    {:name :action/create-pending-booking, :config {:type :time}}],
    :to :state/preauthorized,
-   :privileged? true}
+   :privileged? false}
   {:name :transition/request-preauthorization-after-inquiry,
    :actor :actor.role/customer,
    :actions
    [{:name :action/update-protected-data}
-    {:name :action/create-pending-booking, :config {:type :time}}
-    {:name :action/privileged-set-line-items}],
+    {:name :action/create-pending-booking, :config {:type :time}}],
    :from :state/inquiry,
    :to :state/preauthorized,
-   :privileged? true}
+   :privileged? false}
   {:name :transition/accept,
    :actor :actor.role/provider,
    :actions

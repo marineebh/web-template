@@ -18,7 +18,7 @@ describe('EditListingDetailsForm', () => {
     const selectableListingTypes = [
       {
         listingType: 'sell-bicycles',
-        transactionProcessAlias: 'default-purchase/release-1',
+        transactionProcessAlias: 'default-purchase/release-44',
         unitType: 'item',
       },
     ];

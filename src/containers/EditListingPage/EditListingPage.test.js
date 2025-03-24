@@ -36,7 +36,7 @@ const listingTypesBookingDay = [
     id: 'rent-bicycles-daily',
     transactionProcess: {
       name: 'default-booking',
-      alias: 'default-booking/release-1',
+      alias: 'default-booking/release-44',
     },
     unitType: 'day',
     availabilityType: 'oneSeat',
@@ -47,7 +47,7 @@ const listingTypesBookingDayWithSeats = [
     id: 'rent-bicycles-daily',
     transactionProcess: {
       name: 'default-booking',
-      alias: 'default-booking/release-1',
+      alias: 'default-booking/release-44',
     },
     unitType: 'day',
     availabilityType: 'multipleSeats',
@@ -58,7 +58,7 @@ const listingTypesBookingNightly = [
     id: 'rent-bicycles-nightly',
     transactionProcess: {
       name: 'default-booking',
-      alias: 'default-booking/release-1',
+      alias: 'default-booking/release-44',
     },
     unitType: 'night',
     availabilityType: 'oneSeat',
@@ -69,7 +69,7 @@ const listingTypesBookingHourly = [
     id: 'rent-bicycles-hourly',
     transactionProcess: {
       name: 'default-booking',
-      alias: 'default-booking/release-1',
+      alias: 'default-booking/release-44',
     },
     unitType: 'hour',
     availabilityType: 'oneSeat',
@@ -80,7 +80,7 @@ const listingTypesPurchase = [
     id: 'sell-bicycles',
     transactionProcess: {
       name: 'default-purchase',
-      alias: 'default-purchase/release-1',
+      alias: 'default-purchase/release-44',
     },
     unitType: 'item',
     stockType: 'multipleItems',
@@ -93,7 +93,7 @@ const listingTypesInquiry = [
     label: 'Inquiry',
     transactionProcess: {
       name: 'default-inquiry',
-      alias: 'default-inquiry/release-1',
+      alias: 'default-inquiry/release-44',
     },
     unitType: 'inquiry',
   },
@@ -443,7 +443,7 @@ describe('EditListingPage', () => {
       description: 'Lorem ipsum',
       publicData: {
         listingType: 'sell-bicycles',
-        transactionProcessAlias: 'default-purchase/release-1',
+        transactionProcessAlias: 'default-purchase/release-44',
         unitType: 'item',
       },
     });
@@ -584,7 +584,7 @@ describe('EditListingPage', () => {
       description: 'Lorem ipsum',
       publicData: {
         listingType: 'sell-bicycles',
-        transactionProcessAlias: 'default-purchase/release-1',
+        transactionProcessAlias: 'default-purchase/release-44',
         unitType: 'item',
       },
     });
@@ -659,7 +659,7 @@ describe('EditListingPage', () => {
         price: new Money(5500, 'USD'),
         publicData: {
           listingType: 'sell-bicycles',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           category: 'cat_1',
         },
@@ -727,7 +727,7 @@ describe('EditListingPage', () => {
         price: new Money(5500, 'USD'),
         publicData: {
           listingType: 'sell-bicycles',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           category: 'cat_1',
         },
@@ -813,7 +813,7 @@ describe('EditListingPage', () => {
         price: new Money(5500, 'USD'),
         publicData: {
           listingType: 'sell-bicycles',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           category: 'cat_1',
           shippingPriceInSubunitsOneItem: 1000,
@@ -872,7 +872,7 @@ describe('EditListingPage', () => {
         price: new Money(5500, 'USD'),
         publicData: {
           listingType: 'sell-bicycles',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           category: 'cat_1',
         },
@@ -948,7 +948,7 @@ describe('EditListingPage', () => {
         price: new Money(5500, 'USD'),
         publicData: {
           listingType: 'sell-bicycles',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           category: 'cat_1',
         },
@@ -1014,7 +1014,7 @@ describe('EditListingPage', () => {
         price: new Money(5500, 'USD'),
         publicData: {
           listingType: 'sell-bicycles',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           category: 'cat_1',
         },
@@ -1088,7 +1088,7 @@ describe('EditListingPage', () => {
         price: new Money(5500, 'USD'),
         publicData: {
           listingType: 'sell-bicycles',
-          transactionProcessAlias: 'default-purchase/release-1',
+          transactionProcessAlias: 'default-purchase/release-44',
           unitType: 'item',
           category: 'cat_1',
         },
@@ -1132,7 +1132,7 @@ describe('EditListingPage', () => {
       description: 'Lorem ipsum',
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
       },
     });
@@ -1197,7 +1197,7 @@ describe('EditListingPage', () => {
       description: 'Lorem ipsum',
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1266,7 +1266,7 @@ describe('EditListingPage', () => {
       price: new Money(1000, 'USD'),
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1352,7 +1352,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1437,7 +1437,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1528,7 +1528,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1604,7 +1604,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1684,7 +1684,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1780,7 +1780,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'day',
         amenities: ['dog_1'],
         location: {
@@ -1862,7 +1862,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-nightly',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'night',
         amenities: ['dog_1'],
         location: {
@@ -2010,7 +2010,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-hourly',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -2185,7 +2185,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -2254,7 +2254,7 @@ describe('EditListingPage', () => {
 
       publicData: {
         listingType: 'rent-bicycles-daily',
-        transactionProcessAlias: 'default-booking/release-1',
+        transactionProcessAlias: 'default-booking/release-44',
         unitType: 'hour',
         amenities: ['dog_1'],
         location: {
@@ -2298,7 +2298,7 @@ describe('EditListingPage', () => {
       description: 'Lorem ipsum',
       publicData: {
         listingType: 'inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
       },
     });
@@ -2373,7 +2373,7 @@ describe('EditListingPage', () => {
       price: new Money(5500, 'USD'),
       publicData: {
         listingType: 'inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
         category: 'cat_1',
       },
@@ -2415,7 +2415,7 @@ describe('EditListingPage', () => {
       price: new Money(5500, 'USD'),
       publicData: {
         listingType: 'inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
         category: 'cat_1',
       },
@@ -2453,7 +2453,7 @@ describe('EditListingPage', () => {
       price: new Money(5500, 'USD'),
       publicData: {
         listingType: 'inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
         category: 'cat_1',
         location: {
@@ -2521,7 +2521,7 @@ describe('EditListingPage', () => {
       description: 'Lorem ipsum',
       publicData: {
         listingType: 'inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
         category: 'cat_1',
         location: {
@@ -2578,7 +2578,7 @@ describe('EditListingPage', () => {
       price: new Money(5500, 'USD'),
       publicData: {
         listingType: 'inquiry',
-        transactionProcessAlias: 'default-inquiry/release-1',
+        transactionProcessAlias: 'default-inquiry/release-44',
         unitType: 'inquiry',
         category: 'cat_1',
         location: {

@@ -181,7 +181,7 @@ export const pickCustomFieldProps = (
  * and the payment processor being used.
  *
  * @param {string} transactionProcessAlias - The alias of the transaction process. Expected to be in the format
- *                               of "PROCESS_NAME/version" (e.g., "booking-default/release-1").
+ *                               of "PROCESS_NAME/version" (e.g., "booking-default/release-44").
  * @param {string} listingCurrency - A currency code (e.g., "USD", "EUR").
  * @param {string|null} paymentProcessor - (Optional) The name of the payment processor, such as "stripe".
  *                                         Defaults to null if no payment processor is specified.

@@ -18,12 +18,14 @@ module.exports = (req, res) => {
       const { providerCommission, customerCommission } =
         commissionAsset?.type === 'jsonAsset' ? commissionAsset.attributes.data : {};
 
+      
       const lineItems = transactionLineItems(
         listing,
         orderData,
         providerCommission,
         customerCommission
-      );
+      ); //22/03/2025
+      
 
       // Because we are using returned lineItems directly in this template we need to use the helper function
       // to add some attributes like lineTotal and reversal that Marketplace API also adds to the response.
@@ -32,6 +34,7 @@ module.exports = (req, res) => {
       res
         .status(200)
         .set('Content-Type', 'application/transit+json')
+        // 22/03/2025
         .send(serialize({ data: validLineItems }))
         .end();
     })
