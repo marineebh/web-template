@@ -16,8 +16,18 @@ import { storeData } from './CheckoutPageSessionHelpers';
  * @returns object containing unitType etc. - or an empty object.
  */
 export const getTransactionTypeData = (listingType, unitTypeInPublicData, config) => {
+  if (!config || !config.listing || !config.listing.listingTypes) {
+    console.error('Config or listingTypes is undefined');
+    return {};
+  }
+
   const listingTypeConfig = config.listing.listingTypes.find(lt => lt.listingType === listingType);
-  const { process, alias, unitType, ...rest } = listingTypeConfig?.transactionType || {};
+  if (!listingTypeConfig) {
+    console.error(`Listing type ${listingType} is not found in config`);
+    return {};
+  }
+
+  const { process, alias, unitType, ...rest } = listingTypeConfig.transactionType || {};
   // Note: we want to rely on unitType written in public data of the listing entity.
   //       The listingType configuration might have changed on the fly.
   return unitTypeInPublicData ? { unitType: unitTypeInPublicData, ...rest } : {};
@@ -175,6 +185,8 @@ const persistTransaction = (order, pageData, storeData, setPageData, sessionStor
  * @param {Object} extraPaymentParams contains extra params needed by one of the following calls in the checkout sequence
  * @returns Promise that goes through each step in the checkout sequence.
  */
+
+/*
 export const processCheckoutWithPayment = (orderParams, extraPaymentParams) => {
   const {
     hasPaymentIntentUserActionsDone,
@@ -344,6 +356,7 @@ export const processCheckoutWithPayment = (orderParams, extraPaymentParams) => {
 
   return handlePaymentIntentCreation(orderParams);
 };
+*/
 
 /**
  * Initialize OrderDetailsPage with given initialValues.
@@ -371,37 +384,49 @@ export const processCheckoutWithoutPayment = (orderParams, extraParams) => {
     pageData,
     process,
     setPageData,
-    sessionStorageKey,
+    // sessionStorageKey,
   } = extraParams;
 
+  console.log("Log 1: ExtraParams:", extraParams); // Log 1: Vérification des paramètres extraParams
+
   const storedTx = ensureTransaction(pageData.transaction);
+  console.log("Log 2: Stored Transaction:", storedTx); // Log 2: Transaction récupérée
 
   const processAlias = pageData?.listing?.attributes?.publicData?.transactionProcessAlias;
+  console.log("Log 3: Process Alias:", processAlias); // Log 3: Alias du processus de transaction
 
   ////////////////////////////////////////////////
   // Step 1: initiate order                     //
   // by requesting booking from Marketplace API //
   ////////////////////////////////////////////////
   const fnRequest = fnParams => {
-    // fnParams should be { listingId, deliveryMethod, quantity?, bookingDates?, protectedData }
+    console.log("Log 4: Initiating Order with params:", fnParams); // Log 4: Paramètres pour initier la commande
 
-    const requestTransition =
-      storedTx?.attributes?.lastTransition === process.transitions.INQUIRE
-        ? process.transitions.REQUEST_PAYMENT_AFTER_INQUIRY
-        : process.transitions.REQUEST_PAYMENT;
-    const isPrivileged = process.isPrivileged(requestTransition);
+    // fnParams should be { listingId, deliveryMethod, quantity?, bookingDates?, protectedData }
+    const requestTransition = process.transitions.REQUEST_PREAUTHORIZATION;
+      // storedTx?.attributes?.lastTransition === process.transitions.BOOKING
+      //   ? process.transitions.REQUEST_PAYMENT_AFTER_INQUIRY
+      //   : process.transitions.REQUEST_PREAUTHORIZATION;
+
+    console.log("Log 5: Request Transition:", requestTransition); // Log 5: Transition de demande de paiement
+
+    // const isPrivileged = process.isPrivileged(requestTransition);
+    // console.log("Log 6: Privileged Check:", isPrivileged); // Optionnel: Log si isPrivileged est utilisé
 
     const orderPromise = onInitiateOrder(
       fnParams,
       processAlias,
       storedTx.id,
       requestTransition,
-      isPrivileged
+      // isPrivileged
     );
 
     orderPromise.then(order => {
+      console.log("Log 7: Order Received from onInitiateOrder:", order); // Log 7: Réponse de la commande
+
       // Store the returned transaction (order)
-      persistTransaction(order, pageData, storeData, setPageData, sessionStorageKey);
+      persistTransaction(order, pageData, storeData, setPageData);
+      console.log("Log 8: Transaction persisted after order:", order); // Log 8: Transaction persistée
     });
 
     return orderPromise;
@@ -411,13 +436,29 @@ export const processCheckoutWithoutPayment = (orderParams, extraParams) => {
   // Step 2: send initial message //
   //////////////////////////////////
   const fnSendMessage = fnParams => {
+    console.log("Log 9: Sending message with params:", fnParams); // Log 9: Paramètres pour l'envoi du message
+
     const orderId = fnParams?.id;
+    console.log("Log 10: Order ID for message:", orderId); // Log 10: ID de la commande pour le message
+
     return onSendMessage({ id: orderId, message });
   };
 
   /////////////////////////////////
   // Call each step in sequence //
   ////////////////////////////////
+  console.log("Log 11: Calling fnRequest with orderParams:", orderParams); // Log 11: Appel à fnRequest avec les paramètres de commande
 
-  return fnRequest(orderParams).then(res => fnSendMessage({...res}))
+  return fnRequest(orderParams)
+    .then(res => {
+      console.log("Log 12: fnRequest Response:", res); // Log 12: Réponse de fnRequest
+      return fnSendMessage({...res});
+    })
+    .then(res => {
+      console.log("Log 13: Message Send Response:", res); // Log 13: Réponse après l'envoi du message
+    })
+    .catch(err => {
+      console.error("Log 14: Error in checkout process:", err); // Log 14: Erreur dans le processus de commande
+    });
 };
+

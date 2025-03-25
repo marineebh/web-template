@@ -504,7 +504,7 @@ export const TransactionPageComponent = props => {
       protectedData={transaction?.attributes?.protectedData}
       messages={messages}
       initialMessageFailed={initialMessageFailed}
-      savePaymentMethodFailed={savePaymentMethodFailed}
+      // savePaymentMethodFailed={savePaymentMethodFailed}
       fetchMessagesError={fetchMessagesError}
       sendMessageInProgress={sendMessageInProgress}
       sendMessageError={sendMessageError}

@@ -298,7 +298,8 @@ const getTransactionHeaders = () => {
 export const initiatePrivileged = async (params) => {
   const headers = {
     ...getTransactionHeaders(),
-    'X-Privileged-Mode': 'true',
+    //22/03/2025
+    'X-Privileged-Mode': 'false',
     'X-Transaction-Process': 'default-booking/release-44', // Utilisez le processus défini dans process.edn
   };
 

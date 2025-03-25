@@ -44,8 +44,8 @@ import {
   Modal,
   NamedRedirect,
   Tabs,
-  StripeConnectAccountStatusBox,
-  StripeConnectAccountForm,
+  // StripeConnectAccountStatusBox,
+  // StripeConnectAccountForm,
 } from '../../../components';
 
 // Import modules from this directory
@@ -75,8 +75,8 @@ const TABS_ALL = [...TABS_PRODUCT, ...TABS_BOOKING, ...TABS_INQUIRY];
 // Tabs are horizontal in small screens
 const MAX_HORIZONTAL_NAV_SCREEN_WIDTH = 1023;
 
-const STRIPE_ONBOARDING_RETURN_URL_SUCCESS = 'success';
-const STRIPE_ONBOARDING_RETURN_URL_FAILURE = 'failure';
+// const STRIPE_ONBOARDING_RETURN_URL_SUCCESS = 'success';
+// const STRIPE_ONBOARDING_RETURN_URL_FAILURE = 'failure';
 
 // Pick only allowed tabs from the given list
 const getTabs = (processTabs, disallowedTabs) => {
@@ -391,22 +391,22 @@ class EditListingWizard extends Component {
     this.hasScrolledToTab = false;
 
     this.state = {
-      draftId: null,
-      showPayoutDetails: false,
+    //   draftId: null,
+    //   showPayoutDetails: false,
       selectedListingType: null,
       mounted: false,
     };
     this.handleCreateFlowTabScrolling = this.handleCreateFlowTabScrolling.bind(this);
     this.handlePublishListing = this.handlePublishListing.bind(this);
-    this.handlePayoutModalClose = this.handlePayoutModalClose.bind(this);
+    // this.handlePayoutModalClose = this.handlePayoutModalClose.bind(this);
   }
 
   componentDidMount() {
-    const { stripeOnboardingReturnURL } = this.props;
+    // const { stripeOnboardingReturnURL } = this.props;
 
-    if (stripeOnboardingReturnURL != null && !this.showPayoutDetails) {
-      this.setState({ showPayoutDetails: true });
-    }
+    // if (stripeOnboardingReturnURL != null && !this.showPayoutDetails) {
+    //   this.setState({ showPayoutDetails: true });
+    // }
     if (!this.mounted) {
       this.mounted = true;
     }
@@ -417,12 +417,17 @@ class EditListingWizard extends Component {
   }
 
   // 22/03/2025
+  // handlePublishListing(id) {
+  //   this.props.onPublishListingDraft(id);
+  // }
+
   handlePublishListing(id) {
-    this.props.onPublishListingDraft(id);
+    const { onPublishListingDraft } = this.props;
+    onPublishListingDraft(id);
   }
-/*
+  /*
   handlePublishListing(id) {
-    const { onPublishListingDraft, currentUser, stripeAccount, listing, config } = this.props;
+    // const { onPublishListingDraft, currentUser, stripeAccount, listing, config } = this.props;
     const processName = listing?.attributes?.publicData?.transactionProcessAlias.split('/')[0];
     const isInquiryProcess = processName === INQUIRY_PROCESS_NAME;
 
@@ -432,31 +437,37 @@ class EditListingWizard extends Component {
     // Customers can't purchase these listings - but it gives operator opportunity to discuss with providers who fail to do so.
     const isPayoutDetailsRequired = requirePayoutDetails(listingTypeConfig);
 
-    const stripeConnected = !!currentUser?.stripeAccount?.id;
-    const stripeAccountData = stripeConnected ? getStripeAccountData(stripeAccount) : null;
-    const stripeRequirementsMissing =
-      stripeAccount &&
-      (hasRequirements(stripeAccountData, 'past_due') ||
-        hasRequirements(stripeAccountData, 'currently_due'));
+    
+    // const stripeConnected = !!currentUser?.stripeAccount?.id;
+    // const stripeAccountData = stripeConnected ? getStripeAccountData(stripeAccount) : null;
+    // const stripeRequirementsMissing =
+    //   stripeAccount &&
+    //   (hasRequirements(stripeAccountData, 'past_due') ||
+    //     hasRequirements(stripeAccountData, 'currently_due'));
 
-    if (
-      isInquiryProcess ||
-      !isPayoutDetailsRequired ||
-      (stripeConnected && !stripeRequirementsMissing)
-    ) {
-      onPublishListingDraft(id);
-    } else {
-      this.setState({
-        draftId: id,
-        showPayoutDetails: true,
-      });
-    }
+    // if (
+    //   isInquiryProcess ||
+    //   !isPayoutDetailsRequired ||
+    //   (stripeConnected && !stripeRequirementsMissing)
+    // ) {
+    //   onPublishListingDraft(id);
+    // } else {
+    //   this.setState({
+    //     draftId: id,
+    //     showPayoutDetails: true,
+    //   });
+    // }
   }
 */
-  handlePayoutModalClose() {
-    this.setState({ showPayoutDetails: false });
-  }
+  // handlePayoutModalClose() {
+  //   this.setState({ showPayoutDetails: false });
+  // }
 
+
+
+
+
+/*
   render() {
     const {
       id,
@@ -467,19 +478,19 @@ class EditListingWizard extends Component {
       intl,
       errors,
       fetchInProgress,
-      payoutDetailsSaveInProgress,
-      payoutDetailsSaved,
+      // payoutDetailsSaveInProgress,
+      // payoutDetailsSaved,
       onManageDisableScrolling,
-      onPayoutDetailsChange,
-      onGetStripeConnectAccountLink,
-      getAccountLinkInProgress,
-      createStripeAccountError,
-      updateStripeAccountError,
-      fetchStripeAccountError,
-      stripeAccountFetched,
-      stripeAccount,
-      stripeAccountError,
-      stripeAccountLinkError,
+      // onPayoutDetailsChange,
+      // onGetStripeConnectAccountLink,
+      // getAccountLinkInProgress,
+      // createStripeAccountError,
+      // updateStripeAccountError,
+      // fetchStripeAccountError,
+      // stripeAccountFetched,
+      // stripeAccount,
+      // stripeAccountError,
+      // stripeAccountLinkError,
       currentUser,
       config,
       routeConfiguration,
@@ -579,56 +590,56 @@ class EditListingWizard extends Component {
       return { name: 'EditListingPage', params: { ...params, tab } };
     };
 
-    const formDisabled = getAccountLinkInProgress;
-    const ensuredCurrentUser = ensureCurrentUser(currentUser);
-    const currentUserLoaded = !!ensuredCurrentUser.id;
-    const stripeConnected = currentUserLoaded && !!stripeAccount && !!stripeAccount.id;
+    // const formDisabled = getAccountLinkInProgress;
+    // const ensuredCurrentUser = ensureCurrentUser(currentUser);
+    // const currentUserLoaded = !!ensuredCurrentUser.id;
+    // const stripeConnected = currentUserLoaded && !!stripeAccount && !!stripeAccount.id;
 
-    const rootURL = config.marketplaceRootURL;
-    const { returnURLType, ...pathParams } = params;
-    const successURL = createReturnURL(
-      STRIPE_ONBOARDING_RETURN_URL_SUCCESS,
-      rootURL,
-      routeConfiguration,
-      pathParams
-    );
-    const failureURL = createReturnURL(
-      STRIPE_ONBOARDING_RETURN_URL_FAILURE,
-      rootURL,
-      routeConfiguration,
-      pathParams
-    );
+    // const rootURL = config.marketplaceRootURL;
+    // const { returnURLType, ...pathParams } = params;
+    // const successURL = createReturnURL(
+    //   STRIPE_ONBOARDING_RETURN_URL_SUCCESS,
+    //   rootURL,
+    //   routeConfiguration,
+    //   pathParams
+    // );
+    // const failureURL = createReturnURL(
+    //   STRIPE_ONBOARDING_RETURN_URL_FAILURE,
+    //   rootURL,
+    //   routeConfiguration,
+    //   pathParams
+    // );
 
-    const accountId = stripeConnected ? stripeAccount.id : null;
-    const stripeAccountData = stripeConnected ? getStripeAccountData(stripeAccount) : null;
+    // const accountId = stripeConnected ? stripeAccount.id : null;
+    // const stripeAccountData = stripeConnected ? getStripeAccountData(stripeAccount) : null;
 
-    const requirementsMissing =
-      stripeAccount &&
-      (hasRequirements(stripeAccountData, 'past_due') ||
-        hasRequirements(stripeAccountData, 'currently_due'));
+    // const requirementsMissing =
+    //   stripeAccount &&
+    //   (hasRequirements(stripeAccountData, 'past_due') ||
+    //     hasRequirements(stripeAccountData, 'currently_due'));
 
-    const savedCountry = stripeAccountData ? stripeAccountData.country : null;
-    const savedAccountType = stripeAccountData ? stripeAccountData.business_type : null;
+    // const savedCountry = stripeAccountData ? stripeAccountData.country : null;
+    // const savedAccountType = stripeAccountData ? stripeAccountData.business_type : null;
 
-    const { marketplaceName } = config;
-    const payoutModalInfo = stripeAccountData ? (
-      <FormattedMessage id="EditListingWizard.payoutModalInfo" values={{ marketplaceName }} />
-    ) : (
-      <FormattedMessage id="EditListingWizard.payoutModalInfoNew" values={{ marketplaceName }} />
-    );
+    // const { marketplaceName } = config;
+    // const payoutModalInfo = stripeAccountData ? (
+    //   <FormattedMessage id="EditListingWizard.payoutModalInfo" values={{ marketplaceName }} />
+    // ) : (
+    //   <FormattedMessage id="EditListingWizard.payoutModalInfoNew" values={{ marketplaceName }} />
+    // );
 
-    const handleGetStripeConnectAccountLink = handleGetStripeConnectAccountLinkFn(
-      onGetStripeConnectAccountLink,
-      {
-        accountId,
-        successURL,
-        failureURL,
-      }
-    );
+    // const handleGetStripeConnectAccountLink = handleGetStripeConnectAccountLinkFn(
+    //   onGetStripeConnectAccountLink,
+    //   {
+    //     accountId,
+    //     successURL,
+    //     failureURL,
+    //   }
+    // );
 
-    const returnedNormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_SUCCESS;
-    const returnedAbnormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_FAILURE;
-    const showVerificationNeeded = stripeConnected && requirementsMissing;
+    // const returnedNormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_SUCCESS;
+    // const returnedAbnormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_FAILURE;
+    // const showVerificationNeeded = stripeConnected && requirementsMissing;
 
     // Redirect from success URL to basic path for StripePayoutPage
     if (returnedNormallyFromStripe && stripeConnected && !requirementsMissing) {
@@ -676,7 +687,7 @@ class EditListingWizard extends Component {
             );
           })}
         </Tabs>
-        <Modal
+        { <Modal
           id="EditListingWizard.payoutModal"
           isOpen={this.state.showPayoutDetails}
           onClose={this.handlePayoutModalClose}
@@ -738,10 +749,154 @@ class EditListingWizard extends Component {
               </>
             )}
           </div>
-        </Modal>
+        </Modal> }
       </div>
     );
   }
+}
+
+*/
+
+render() {
+  const {
+    id,
+    className,
+    rootClassName,
+    params,
+    listing,
+    intl,
+    errors,
+    fetchInProgress,
+    onManageDisableScrolling,
+    currentUser,
+    config,
+    routeConfiguration,
+    ...rest
+  } = this.props;
+
+  const selectedTab = params.tab;
+  const isNewListingFlow = [LISTING_PAGE_PARAM_TYPE_NEW, LISTING_PAGE_PARAM_TYPE_DRAFT].includes(
+    params.type
+  );
+  const rootClasses = rootClassName || css.root;
+  const classes = classNames(rootClasses, className);
+  const currentListing = ensureListing(listing);
+  const savedProcessAlias = currentListing.attributes?.publicData?.transactionProcessAlias;
+  const transactionProcessAlias =
+    savedProcessAlias || this.state.selectedListingType?.transactionProcessAlias;
+
+  const validListingTypes = config.listing.listingTypes;
+  const listingTypeConfig = getListingTypeConfig(
+    currentListing,
+    this.state.selectedListingType,
+    config
+  );
+  const existingListingType = currentListing.attributes?.publicData?.listingType;
+  const invalidExistingListingType = existingListingType && !listingTypeConfig;
+  const isPriceDisabled = !displayPrice(listingTypeConfig);
+
+  const processName = transactionProcessAlias
+    ? transactionProcessAlias.split('/')[0]
+    : validListingTypes.length === 1
+    ? validListingTypes[0].transactionType.process
+    : INQUIRY_PROCESS_NAME;
+
+  const hasListingTypeSelected =
+    existingListingType || this.state.selectedListingType || validListingTypes.length === 1;
+
+  const tabs =
+    isNewListingFlow && (invalidExistingListingType || !hasListingTypeSelected)
+      ? TABS_DETAILS_ONLY
+      : isBookingProcess(processName)
+      ? tabsForBookingProcess(TABS_BOOKING, listingTypeConfig)
+      : isPurchaseProcess(processName)
+      ? tabsForPurchaseProcess(TABS_PRODUCT, listingTypeConfig)
+      : tabsForInquiryProcess(TABS_INQUIRY, listingTypeConfig);
+
+  const tabsStatus = tabsActive(isNewListingFlow, currentListing, tabs, config);
+
+  if (invalidExistingListingType && isNewListingFlow && selectedTab !== tabs[0]) {
+    return <NamedRedirect name="EditListingPage" params={{ ...params, tab: tabs[0] }} />;
+  }
+
+  if (!invalidExistingListingType && !tabsStatus[selectedTab]) {
+    const currentTabIndex = tabs.indexOf(selectedTab);
+    const nearestActiveTab = tabs
+      .slice(0, currentTabIndex)
+      .reverse()
+      .find(t => tabsStatus[t]);
+
+    console.log(
+      `You tried to access an EditListingWizard tab (${selectedTab}), which was not yet activated.`
+    );
+    return <NamedRedirect name="EditListingPage" params={{ ...params, tab: nearestActiveTab }} />;
+  }
+
+  const isBrowser = typeof window !== 'undefined';
+  const hasMatchMedia = isBrowser && window?.matchMedia;
+  const isMobileLayout = hasMatchMedia
+    ? window.matchMedia(`(max-width: ${MAX_HORIZONTAL_NAV_SCREEN_WIDTH}px)`)?.matches
+    : true;
+
+  const hasHorizontalTabLayout = this.state.mounted && isMobileLayout;
+  const hasVerticalTabLayout = this.state.mounted && !isMobileLayout;
+
+  if (hasVerticalTabLayout) {
+    this.hasScrolledToTab = true;
+  } else if (hasHorizontalTabLayout && !this.hasScrolledToTab) {
+    const tabPrefix = id;
+    scrollToTab(tabPrefix, selectedTab);
+    this.hasScrolledToTab = true;
+  }
+
+  const tabLink = tab => {
+    return { name: 'EditListingPage', params: { ...params, tab } };
+  };
+
+  return (
+    <div className={classes}>
+      <Tabs
+        rootClassName={css.tabsContainer}
+        navRootClassName={css.nav}
+        tabRootClassName={css.tab}
+      >
+        {tabs.map(tab => {
+          const tabTranslations = tabLabelAndSubmit(
+            intl,
+            tab,
+            isNewListingFlow,
+            isPriceDisabled,
+            processName
+          );
+          return (
+            <EditListingWizardTab
+              {...rest}
+              key={tab}
+              tabId={`${id}_${tab}`}
+              tabLabel={tabTranslations.label}
+              tabSubmitButtonText={tabTranslations.submitButton}
+              tabLinkProps={tabLink(tab)}
+              selected={selectedTab === tab}
+              disabled={isNewListingFlow && !tabsStatus[tab]}
+              tab={tab}
+              params={params}
+              listing={listing}
+              marketplaceTabs={tabs}
+              errors={errors}
+              handleCreateFlowTabScrolling={this.handleCreateFlowTabScrolling}
+              handlePublishListing={this.handlePublishListing}
+              fetchInProgress={fetchInProgress}
+              onListingTypeChange={selectedListingType => this.setState({ selectedListingType })}
+              onManageDisableScrolling={onManageDisableScrolling}
+              config={config}
+              routeConfiguration={routeConfiguration}
+            />
+          );
+        })}
+      </Tabs>
+    </div>
+  );
+}
 }
 
 const EnhancedEditListingWizard = props => {

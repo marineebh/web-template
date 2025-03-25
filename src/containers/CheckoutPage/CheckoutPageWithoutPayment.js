@@ -33,7 +33,7 @@ import {
   bookingDatesMaybe,
   getBillingDetails,
   getFormattedTotalPrice,
-  getShippingDetailsMaybe,
+  // getShippingDetailsMaybe,
   getTransactionTypeData,
   processCheckoutWithoutPayment,
   setOrderPageInitialValues,
@@ -59,33 +59,42 @@ import css from './CheckoutPage.module.css';
  * @param {Object} config app-wide configs. This contains hosted configs too.
  * @returns orderParams.
  */
-const getOrderParams = (pageData, shippingDetails, config) => {
-  const quantity = pageData.orderData?.quantity;
-  const quantityMaybe = quantity ? { quantity } : {};
-  const deliveryMethod = pageData.orderData?.deliveryMethod;
-  const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
+const getOrderParams = (pageData, config) => {
+  console.log("1111 Building order params from pageData:", pageData);
+
+  // const quantity = pageData.orderData?.quantity;
+  // const quantityMaybe = quantity ? { quantity } : {};
+  // console.log("Quantity maybe:", quantityMaybe);
+
+  // const deliveryMethod = pageData.orderData?.deliveryMethod;
+  // const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
+  // console.log("Delivery method maybe:", deliveryMethodMaybe);
 
   const { listingType, unitType } =
     pageData?.listing?.attributes?.publicData || {};
+  console.log("2222 Listing type and unit type:", { listingType, unitType });
+
   const protectedDataMaybe = {
     protectedData: {
       ...getTransactionTypeData(listingType, unitType, config),
-      ...deliveryMethodMaybe,
-      ...shippingDetails,
+      // ...deliveryMethodMaybe,
     },
   };
+  console.log("3333 Protected data:", protectedDataMaybe);
 
-  // These are the order parameters for the first payment-related transition
-  // which is either initiate-transition or initiate-transition-after-enquiry
   const orderParams = {
     listingId: pageData?.listing?.id,
-    ...deliveryMethodMaybe,
-    ...quantityMaybe,
+    // ...deliveryMethodMaybe,
+    // ...quantityMaybe,
     ...bookingDatesMaybe(pageData.orderData?.bookingDates),
     ...protectedDataMaybe,
   };
+  console.log("4444 Final order params:", orderParams);
+
   return orderParams;
 };
+
+
 
 const fetchSpeculatedTransactionIfNeeded = (
   orderParams,
@@ -151,8 +160,8 @@ export const loadInitialData = ({
   // Fetch speculated transaction for showing price in order breakdown
   // NOTE: if unit type is line-item/item, quantity needs to be added.
   // The way to pass it to checkout page is through pageData.orderData
-  const shippingDetails = {};
-  const orderParams = getOrderParams(pageData, shippingDetails, config);
+  // const shippingDetails = {};
+  const orderParams = getOrderParams(pageData, config);
 
   fetchSpeculatedTransactionIfNeeded(
     orderParams,
@@ -161,82 +170,19 @@ export const loadInitialData = ({
   );
 };
 
-// const handleSubmit = (values, process, props, submitting, setSubmitting) => {
-//   if (submitting) {
-//     return;
-//   }
-//   setSubmitting(true);
-//   console.log({ values });
 
-//   const {
-//     history,
-//     config,
-//     routeConfiguration,
-//     speculatedTransaction,
-//     currentUser,
-//     dispatch,
-//     onInitiateOrder,
-//     onSendMessage,
-//     onSubmitCallback,
-//     pageData,
-//     setPageData,
-//     sessionStorageKey,
-//   } = props;
-//   const { message, formValues } = values;
 
-//   const requestPaymentParams = {
-//     pageData,
-//     speculatedTransaction,
-//     billingDetails: getBillingDetails(formValues),
-//     message,
-//     process,
-//     onInitiateOrder,
-//     onSendMessage,
-//     sessionStorageKey,
-//     setPageData,
-//   };
 
-//   const shippingDetails = getShippingDetailsMaybe(formValues);
-
-//   // These are the order parameters for the first payment-related transition
-//   // which is either initiate-transition or initiate-transition-after-enquiry
-//   const orderParams = getOrderParams(pageData, shippingDetails, config);
-
-//   // There are multiple XHR calls that needs to be made against the Sharetribe Marketplace API on checkout with payments
-//   processCheckoutWithoutPayment(orderParams, requestPaymentParams)
-//     .then(response => {
-//       const { orderId, messageSuccess } = response;
-//       setSubmitting(false);
-
-//       const initialMessageFailedToTransaction = messageSuccess ? null : orderId;
-//       const orderDetailsPath = pathByRouteName(
-//         'OrderDetailsPage',
-//         routeConfiguration,
-//         {
-//           id: orderId.uuid,
-//         }
-//       );
-//       const initialValues = {
-//         initialMessageFailedToTransaction,
-//       };
-
-//       setOrderPageInitialValues(initialValues, routeConfiguration, dispatch);
-//       onSubmitCallback();
-//       history.push(orderDetailsPath);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       setSubmitting(false);
-//     });
-// };
 
 
 const handleSubmit = (values, process, props, submitting, setSubmitting) => {
   if (submitting) {
+    console.log("Form is already being submitted, skipping...");
     return;
   }
+
   setSubmitting(true);
-  console.log({ values });
+  console.log("handleSubmit triggered with values:", values);
 
   const {
     history,
@@ -252,13 +198,15 @@ const handleSubmit = (values, process, props, submitting, setSubmitting) => {
     setPageData,
     sessionStorageKey,
   } = props;
+
   const { message, formValues } = values;
+  console.log("5555 Form values:", formValues);
 
   const requestPaymentParams = {
     pageData,
     speculatedTransaction,
-    billingDetails: getBillingDetails(formValues),
-    message,
+    // billingDetails: getBillingDetails(formValues),
+    // message,
     process,
     onInitiateOrder,
     onSendMessage,
@@ -266,16 +214,20 @@ const handleSubmit = (values, process, props, submitting, setSubmitting) => {
     setPageData,
   };
 
-  const shippingDetails = getShippingDetailsMaybe(formValues);
+  // Log orderParams and requestPaymentParams
+  const orderParams = getOrderParams(pageData, config);
+  console.log("6666 Order Params:", orderParams);
 
-  // These are the order parameters for the first payment-related transition
-  // which is either initiate-transition or initiate-transition-after-enquiry
-  const orderParams = getOrderParams(pageData, shippingDetails, config);
-
-  // There are multiple XHR calls that needs to be made against the Sharetribe Marketplace API on checkout with payments
   processCheckoutWithoutPayment(orderParams, requestPaymentParams)
     .then(response => {
+      if (!response) {
+        throw new Error("Response is undefined");
+      }
       const { orderId, messageSuccess } = response;
+      console.log("Checkout success response:", response);
+      if (!response) {
+        throw new Error("Order ID is undefined");
+      }
       setSubmitting(false);
 
       const initialMessageFailedToTransaction = messageSuccess ? null : orderId;
@@ -286,6 +238,8 @@ const handleSubmit = (values, process, props, submitting, setSubmitting) => {
           id: orderId.uuid,
         }
       );
+      console.log("Redirecting to order details:", orderDetailsPath);
+
       const initialValues = {
         initialMessageFailedToTransaction,
       };
@@ -295,12 +249,10 @@ const handleSubmit = (values, process, props, submitting, setSubmitting) => {
       history.push(orderDetailsPath);
     })
     .catch(err => {
-      console.error(err);
+      console.error("Error during checkout process:", err);
       setSubmitting(false);
     });
 };
-
-
 
 
 export const CheckoutPageWithoutPayment = props => {
@@ -425,7 +377,7 @@ export const CheckoutPageWithoutPayment = props => {
     name: userName,
     recipientName: userName,
   };
-  const askShippingDetails = orderData?.deliveryMethod === 'shipping';
+  // const askShippingDetails = orderData?.deliveryMethod === 'shipping';
 
   return (
     <Page title={title} scrollingDisabled={scrollingDisabled}>
@@ -483,10 +435,10 @@ export const CheckoutPageWithoutPayment = props => {
                 showInitialMessageInput={showInitialMessageInput}
                 initialValues={initalValuesForStripePayment}
                 initiateOrderError={initiateOrderError}
-                askShippingDetails={askShippingDetails}
+                // askShippingDetails={askShippingDetails}
                 showPickUplocation={orderData?.deliveryMethod === 'pickup'}
                 listingLocation={listing?.attributes?.publicData?.location}
-                totalPrice={"0,00"}
+                totalPrice={totalPrice}
                 locale={config.localization.locale}
                 marketplaceName={config.marketplaceName}
                 isBooking={isBookingProcessAlias(transactionProcessAlias)}

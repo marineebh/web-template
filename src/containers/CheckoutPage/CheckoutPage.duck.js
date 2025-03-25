@@ -254,17 +254,8 @@ export const initiateOrder = (
     throw e;
   };
 
-  if (isTransition && isPrivilegedTransition) {
+  if (isTransition) {
     return transitionPrivileged({ isSpeculative: false, orderData, bodyParams, queryParams })
-      .then(handleSuccess)
-      .catch(handleError);
-  } else if (isTransition) {
-    return sdk.transactions
-      .transition(bodyParams, queryParams)
-      .then(handleSuccess)
-      .catch(handleError);
-  } else if (isPrivilegedTransition) {
-    return initiatePrivileged({ isSpeculative: false, orderData, bodyParams, queryParams })
       .then(handleSuccess)
       .catch(handleError);
   } else {
@@ -279,7 +270,7 @@ export const speculateTransaction = (
   orderParams,
   processAlias,
   transactionId,
-  transitionName
+  transitionName = "transition/request-preauthorization",
 ) => (dispatch, getState, sdk) => {
   dispatch(speculateTransactionRequest());
 
@@ -292,6 +283,16 @@ export const speculateTransaction = (
     dispatch(speculateTransactionError(storableError(error)));
     log.error(error, 'speculate-transaction-failed', {
       listingId: orderParams.listingId.uuid,
+    });
+    throw error;
+  }
+
+  if (!transitionName) {
+    const error = new Error('Le nom de la transition est manquant');
+    dispatch(speculateTransactionError(storableError(error)));
+    log.error(error, 'speculate-transaction-failed', {
+      listingId: orderParams.listingId.uuid,
+      processAlias,
     });
     throw error;
   }
@@ -349,6 +350,13 @@ export const speculateTransaction = (
     });
     return dispatch(speculateTransactionError(storableError(e)));
   };
+
+  console.log('Speculate transaction params:', {
+    bodyParams,
+    queryParams,
+  });
+  console.log('Body Params:', JSON.stringify(bodyParams, null, 2));
+  console.log('Query Params:', JSON.stringify(queryParams, null, 2));
 
   if (isTransition) {
     return sdk.transactions

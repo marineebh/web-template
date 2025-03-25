@@ -39,7 +39,7 @@ const PROCESSES = [
   },
   {
     name: BOOKING_PROCESS_NAME,
-    alias: `${PURCHASE_PROCESS_NAME}/release-44`,
+    alias: `${BOOKING_PROCESS_NAME}/release-44`,
     process: bookingProcess,
     unitTypes: [DAY, NIGHT, HOUR],
   },

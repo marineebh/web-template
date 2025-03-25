@@ -236,10 +236,13 @@ const mapStateToProps = state => {
   };
 };
 
+const transactionName = 'transition/request-preauthorization';
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  fetchSpeculatedTransaction: (params, processAlias, txId, transitionName, isPrivileged) =>
-    dispatch(speculateTransaction(params, processAlias, txId, transitionName, isPrivileged)),
+  // fetchSpeculatedTransaction: (params, processAlias, txId, transitionName, isPrivileged) =>
+  //   dispatch(speculateTransaction(params, processAlias, txId, transitionName, isPrivileged)),
+  fetchSpeculatedTransaction: (orderParams, processAlias, transactionId, transactionName) =>
+    dispatch(speculateTransaction(orderParams, processAlias, transactionId, transactionName)),
   //fetchStripeCustomer: () => dispatch(stripeCustomer()),
   onInquiryWithoutPayment: (params, processAlias, transitionName) =>
     dispatch(initiateInquiryWithoutPayment(params, processAlias, transitionName)),

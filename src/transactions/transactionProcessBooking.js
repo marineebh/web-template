@@ -17,12 +17,14 @@ export const transitions = {
   // created with the initial request-payment transition.
   // At this transition a PaymentIntent is created by Marketplace API.
   // After this transition, the actual payment must be made on client-side directly to Stripe.
-  REQUEST_PAYMENT: 'transition/request-payment',
+  //REQUEST_PAYMENT: 'transition/request-payment',
+
+  REQUEST_PREAUTHORIZATION: 'transition/request-preauthorization',
 
   // A customer can also initiate a transaction with an inquiry, and
   // then transition that with a request.
   INQUIRE: 'transition/inquire',
-  REQUEST_PAYMENT_AFTER_INQUIRY: 'transition/request-payment-after-inquiry',
+  REQUEST_PREAUTHORIZATION_AFTER_INQUIRY: 'transition/request-preauthorization-after-inquiry',
 
   // Stripe SDK might need to ask 3D security from customer, in a separate front-end step.
   // Therefore we need to make another transition to Marketplace API,
@@ -76,10 +78,11 @@ export const transitions = {
 export const states = {
   INITIAL: 'initial',
   INQUIRY: 'inquiry',
-  REQUEST_PAYMENT: 'request-payment',
+  // REQUEST_PAYMENT: 'request-payment',
+  REQUEST_PREAUTHORIZATION : 'request-preauthorization',
   PENDING_PAYMENT: 'pending-payment',
   PAYMENT_EXPIRED: 'payment-expired',
-  PREAUTHORIZED: 'preauthorized',
+  PREAUTHORIZATION: 'preauthorization',
   DECLINED: 'declined',
   ACCEPTED: 'accepted',
   EXPIRED: 'expired',
@@ -115,14 +118,14 @@ export const graph = {
         [transitions.INQUIRE]: states.INQUIRY,
         //  22/03/2025
         //[transitions.REQUEST_PAYMENT]: states.PENDING_PAYMENT,
-        [transitions.REQUEST_PAYMENT]: states.PREAUTHORIZED,
+        [transitions.REQUEST_PREAUTHORIZATION]: states.PREAUTHORIZATION,
       },
     },
     [states.INQUIRY]: {
       on: {
         //  22/03/2025
         //[transitions.REQUEST_PAYMENT_AFTER_INQUIRY]: states.PENDING_PAYMENT,
-        [transitions.REQUEST_PAYMENT_AFTER_INQUIRY]: states.PREAUTHORIZED,
+        [transitions.REQUEST_PREAUTHORIZATION_AFTER_INQUIRY]: states.PREAUTHORIZATION,
       },
     },
 
@@ -136,7 +139,7 @@ export const graph = {
     },
 
     [states.PAYMENT_EXPIRED]: {},*/
-    [states.PREAUTHORIZED]: {
+    [states.PREAUTHORIZATION]: {
       on: {
         [transitions.DECLINE]: states.DECLINED,
         [transitions.OPERATOR_DECLINE]: states.DECLINED,
@@ -221,7 +224,8 @@ export const isProviderReview = transition => {
 // should go through the local API endpoints, or if using JS SDK is
 // enough.
 export const isPrivileged = transition => {
-  return [transitions.REQUEST_PAYMENT, transitions.REQUEST_PAYMENT_AFTER_INQUIRY].includes(
+  // return [transitions.REQUEST_PAYMENT, transitions.REQUEST_PAYMENT_AFTER_INQUIRY].includes(
+    return [transitions.REQUEST_PREAUTHORIZATION, transitions.REQUEST_PAYMENT_AFTER_INQUIRY].includes(
     transition
   );
 };
@@ -254,4 +258,4 @@ export const isRefunded = transition => {
   return txRefundedTransitions.includes(transition);
 };
 
-export const statesNeedingProviderAttention = [states.PREAUTHORIZED];
+export const statesNeedingProviderAttention = [states.PREAUTHORIZATION];
