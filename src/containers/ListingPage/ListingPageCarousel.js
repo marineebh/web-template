@@ -319,7 +319,7 @@ export const ListingPageComponent = props => {
           <div className={css.mainColumnForProductLayout}>
             {mounted && currentListing.id && noPayoutDetailsSetWithOwnListing ? (
               <ActionBarMaybe
-                className={css.actionBarForProductLayout}
+                className={css.actionBarForProductLayoutBis}
                 isOwnListing={isOwnListing}
                 listing={currentListing}
                 showNoPayoutDetailsSet={noPayoutDetailsSetWithOwnListing}

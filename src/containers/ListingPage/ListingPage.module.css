@@ -88,6 +88,21 @@
     margin: 0 0 24px 0;
   }
 }
+.actionBarForProductLayoutBis{
+  margin: 0;
+  width: 100%;
+  display: none;
+
+
+  @media (--viewportMedium) {
+    margin: 24px 0 24px 0;
+    width: 100%;
+  }
+
+  @media (--viewportLarge) {
+    margin: 0 0 24px 0;
+  }
+}
 
 .actionBarContainerForHeroLayout {
   position: absolute;

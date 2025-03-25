@@ -40,7 +40,7 @@
 
 .price {
   /* Layout */
-  display: flex;
+  display: none;
   flex-direction: row;
   justify-content: flex-start;
   flex-shrink: 0;
