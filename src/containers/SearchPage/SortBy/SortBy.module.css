@@ -9,7 +9,7 @@
 }
 
 .sortByMenuLabel {
-  display: inline-block;
+  display: none;
   width: auto;
   height: 35px;
   min-height: 35px;
