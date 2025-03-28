@@ -19,27 +19,37 @@ const { Money } = sdkTypes;
 
 const FIXED_PRICE = new Money(900, 'EUR'); // 9.00 EUR
 
-export const EditListingPricingForm = props => (
+
+export const EditListingPricingFormComponent = props => (
   <FinalForm
     {...props}
+    initialValues={{ price: FIXED_PRICE }}  // Force la valeur initiale à 9 euros
     render={formRenderProps => {
       const {
-        formId = 'EditListingPricingForm',
+        formId,
         className,
-        rootClassName,
         disabled,
-        ready,
         handleSubmit,
+        marketplaceCurrency,
+        unitType,
+        intl,
         invalid,
         pristine,
         saveActionMsg,
         updated,
-        updateInProgress = false,
+        updateInProgress,
         fetchErrors,
       } = formRenderProps;
 
-      const intl = useIntl();
-      const classes = classNames(rootClassName || css.root, className);
+      // Validateur qui s'assure que le prix reste à 9 euros
+      const priceValidator = value => {
+        if (!value || value.amount !== FIXED_PRICE.amount) {
+          return 'Le prix est fixé à 9 euros et ne peut pas être modifié';
+        }
+        return null;
+      };
+
+      const classes = classNames(css.root, className);
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
       const submitDisabled = invalid || disabled || submitInProgress;
@@ -57,18 +67,19 @@ export const EditListingPricingForm = props => (
               <FormattedMessage id="EditListingPricingForm.showListingFailed" />
             </p>
           ) : null}
-          
-          {/* Prix fixé à 9€ et champ désactivé */}
+
           <FieldCurrencyInput
             id={`${formId}price`}
             name="price"
             className={css.input}
+            disabled={true}
+            readOnly={true}
             label={intl.formatMessage(
-              { id: 'EditListingPricingForm.pricePerProduct' }
+              { id: 'EditListingPricingForm.pricePerProduct' },
+              { unitType }
             )}
-            currencyConfig={appSettings.getCurrencyFormatting('EUR')}
-            value={FIXED_PRICE} // Valeur fixée à 9€
-            disabled={true} // Empêche la modification
+            currencyConfig={appSettings.getCurrencyFormatting(marketplaceCurrency)}
+            validate={priceValidator}
           />
 
           <Button
