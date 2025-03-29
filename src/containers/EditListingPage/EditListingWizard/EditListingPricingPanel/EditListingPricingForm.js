@@ -9,13 +9,10 @@ import { FormattedMessage, useIntl } from '../../../../util/reactIntl';
 import * as validators from '../../../../util/validators';
 import { formatMoney } from '../../../../util/currency';
 import { types as sdkTypes } from '../../../../util/sdkLoader';
-import { FIXED } from '../../../../transactions/transaction';
 
 // Import shared components
 import { Button, Form, FieldCurrencyInput } from '../../../../components';
 
-import BookingPriceVariants from './BookingPriceVariants';
-import StartTimeInterval from './StartTimeInverval';
 
 // Import modules from this directory
 import css from './EditListingPricingForm.module.css';
@@ -86,7 +83,9 @@ const ErrorMessages = props => {
  */
 
 const FIXED_PRICE = new Money(900, 'EUR');
+
 export const EditListingPricingForm = props => (
+  
   <FinalForm
     mutators={{ ...arrayMutators }}
     {...props}
@@ -123,49 +122,29 @@ export const EditListingPricingForm = props => (
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
       const submitDisabled = true;
-      const isFixedLengthBooking = unitType === FIXED;
+ 
 
       return (
         <Form onSubmit={handleSubmit} className={classes}>
           <ErrorMessages fetchErrors={fetchErrors} />
-
-          {isFixedLengthBooking ? (
-            <>
-              <BookingPriceVariants
-                formId={formId}
-                autoFocus={autoFocus}
-                className={css.input}
-                marketplaceCurrency={marketplaceCurrency}
-                unitType={unitType}
-                listingMinimumPriceSubUnits={listingMinimumPriceSubUnits}
-              />
-
-              <StartTimeInterval
-                name="startTimeInterval"
-                idPrefix={`${formId}_startTimeInterval`}
-                formValues={formValues}
-                pristine={pristine}
-              />
-            </>
-          ) : (
-            <FieldCurrencyInput
-              id={`${formId}price`}
-              name="price"
-              className={css.input}
-              autoFocus={autoFocus}
-              disabled={true}
-              readOnly={true}
-              label={intl.formatMessage(
-                { id: 'EditListingPricingForm.pricePerProduct' },
-                { unitType }
-              )}
-              placeholder={intl.formatMessage({
-                id: 'EditListingPricingForm.priceInputPlaceholder',
-              })}
-              currencyConfig={appSettings.getCurrencyFormatting(marketplaceCurrency)}
-              validate={priceValidators}
-            />
-          )}
+          <FieldCurrencyInput
+            id={`${formId}price`}
+            name="price"
+            className={css.input}
+            autoFocus={autoFocus}
+            disabled={true}
+            readOnly={true}
+            label={intl.formatMessage(
+              { id: 'EditListingPricingForm.pricePerProduct' },
+              { unitType }
+            )}
+            placeholder={intl.formatMessage({
+              id: 'EditListingPricingForm.priceInputPlaceholder',
+            })}
+            currencyConfig={appSettings.getCurrencyFormatting(marketplaceCurrency)}
+            validate={priceValidators}
+          />
+          
 
           <Button
             className={css.submitButton}
