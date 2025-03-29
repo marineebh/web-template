@@ -121,7 +121,7 @@ export const EditListingPricingForm = props => (
       const classes = classNames(rootClassName || css.root, className);
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
-      const submitDisabled = true;
+      const submitDisabled = false;
  
 
       return (
