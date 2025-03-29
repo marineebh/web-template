@@ -20,7 +20,7 @@ const { Money } = sdkTypes;
 const FIXED_PRICE = new Money(900, 'EUR'); // 9.00 EUR
 
 
-export const EditListingPricingFormComponent = props => (
+export const EditListingPricingForm = props => (
   <FinalForm
     {...props}
     initialValues={{ price: FIXED_PRICE }}  // Force la valeur initiale à 9 euros
@@ -41,14 +41,7 @@ export const EditListingPricingFormComponent = props => (
         fetchErrors,
       } = formRenderProps;
 
-      // Validateur qui s'assure que le prix reste à 9 euros
-      const priceValidator = value => {
-        if (!value || value.amount !== FIXED_PRICE.amount) {
-          return 'Le prix est fixé à 9 euros et ne peut pas être modifié';
-        }
-        return null;
-      };
-
+    
       const classes = classNames(css.root, className);
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
