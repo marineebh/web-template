@@ -41,9 +41,8 @@ export const EditListingPricingForm = props => (
         fetchErrors,
       } = formRenderProps;
 
-    
       const classes = classNames(css.root, className);
-      const submitReady = (updated && pristine) || ready;
+      const submitReady = updated && pristine; // Correction ici
       const submitInProgress = updateInProgress;
       const submitDisabled = invalid || disabled || submitInProgress;
       const { updateListingError, showListingsError } = fetchErrors || {};
